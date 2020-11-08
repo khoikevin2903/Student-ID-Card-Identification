@@ -1,26 +1,51 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchIDCard } from './reducers/IDCard';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import history from './components/history/history';
+import ROUTES from './routes';
+import HeaderApp from './components/Header/Header';
+import FooterApp from './components/footer/footer';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(fetchIDCard('trangchu'))
+	}, [])
+
+	return (
+		<Router history={history}>
+			<div className="font-sans">
+				<div className="DoAn">
+					<HeaderApp />
+					<div className="w-full">
+						{showContenMenus(ROUTES)}
+					</div>
+					<FooterApp />
+				</div>
+			</div>
+		</Router>
+	);
+}
+
+const showContenMenus = (routes) => {
+	var result = null;	
+	if (routes.length > 0) {
+		result = routes.map((route, index) => {
+			return (
+				<Route
+					key={index}
+					path={route.path}
+					exact={route.exact}
+					render={props => <route.main {...props} />}
+				/>
+			)
+		})
+	}
+	return <Switch>{result}</Switch>
 }
 
 export default App;
