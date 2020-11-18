@@ -5,6 +5,13 @@ import './BaixePage.scss';
 function BaixePage(props) {
 
     var [data, setData] = useState([]);
+    
+    const fetchData = () => {
+        new Promise((a, b) => {
+            var dbRef = firebase.database().ref().child('baixe');
+            dbRef.on('value', snap => setData(snap.val()));
+        })
+    }
 
     const [filter, setFilter] = useState({
         filterID: "",
@@ -13,16 +20,8 @@ function BaixePage(props) {
     });
 
     useEffect(() => {
-        fetchData().then(rs => setData(rs));
+        fetchData();
     }, [])
-
-    const fetchData = () => {
-        const db = new Promise((a, b) => {
-            var dbRef = firebase.database().ref().child('baixe');
-            dbRef.on('value', snap => a(snap.val()));
-        })
-        return db;
-    }
 
     const HandleChangeFilter = (event) => {
         var target = event.target;
@@ -77,9 +76,8 @@ function BaixePage(props) {
             bsx: item.bsx
         });
     }
-    // Lay time hien tai
-    // var today = new Date();
-    // var date =today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + "  " + today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
+
+    console.log(data);
 
     const elmItem = data.map((item, index) => {
         return (

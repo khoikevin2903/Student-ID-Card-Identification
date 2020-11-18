@@ -1,20 +1,22 @@
-import React from 'react';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { fetchIDCard } from './reducers/IDCard';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import history from './components/history/history';
 import ROUTES from './routes';
 import HeaderApp from './components/Header/Header';
 import FooterApp from './components/footer/footer';
+import * as firebase from 'firebase';
 
 function App() {
 
-	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(fetchIDCard('trangchu'))
+		fetchInfo();
 	}, [])
+
+	const fetchInfo = () => new Promise((a,b)=> {
+			var dbRef = firebase.database().ref().child('info');
+			dbRef.on('value', snap => localStorage.setItem('info', JSON.stringify(snap.val())));
+		})
 
 	return (
 		<Router history={history}>

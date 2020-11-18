@@ -1,41 +1,51 @@
 import React from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Calendar from '../../components/Calendar';
 import { DAY, MONTH, YEAR } from '../../constants/calendar';
-import { useSelector } from 'react-redux';
+import * as firebase from 'firebase';
+import { onSaveToCard } from '../../reducers/IDCard';
+
+const info = JSON.parse(localStorage.getItem('info'));
 
 function HomePage(props) {
 
-    const IDCard = useSelector(state => state.IDCard);
+    const dispatch = useDispatch();
+
+    const fetchInput = (endpoint) => new Promise((a, b) => {
+        var data = {};
+        var dbRef = firebase.database().ref().child(endpoint);
+        dbRef.on('value', snap => {
+            info.map(x => {
+                if (x.mssv === snap.val().mssv) {
+                    data = snap.val();
+                    Object.assign(data, x);
+                }
+            });
+            setData(data);
+
+        });
+    })
 
     const [data, setData] = useState(
         {
             imgIDCard: "",
             imgCar: "",
+            mssv: "000000000",
+            bsx: "",
             name: "",
-            mssv: "",
-            date: "00/00/0000",
-            nienKhoa: "",
             khoa: "",
-            bsx: ""
+            nienKhoa: "",
+            date: "",
+            thoiGian: ""
         }
     );
 
     useEffect(() => {
-        setData({
-            ...data,
-            imgIDCard: IDCard.imgIDCard,
-            imgCar: IDCard.imgCar,
-            name: IDCard.name,
-            mssv: IDCard.mssv,
-            date: IDCard.date,
-            gender: IDCard.gender,
-            nienKhoa: IDCard.nienKhoa,
-            khoa: IDCard.khoa,
-            bsx: IDCard.bsx
-        })
-    }, [IDCard])
+        fetchInput('input');
+    }, []);
+
+    console.log(data);
 
     const HandleChange = (e) => {
         var target = e.target;
@@ -47,17 +57,21 @@ function HomePage(props) {
         })
     }
 
+    const HandleSave = (dataSave) => {
+        dispatch(onSaveToCard(dataSave));
+    }
+
     return (
-        <div className="bg-gray-200 pb-4">
+        <div className="bg-gray-200 pb-8 mb-1">
             <div className="flex justify-center">
                 <div className="container px-4 pt-10 pb-2 flex justify-center">
                     <div>
                         <div className=" p-4">
                             <div className="bg-white flex justify-center shadow-md mb-2 p-2 border border-gray-400">
-                                <img src={data.imgIDCard || ""} alt="" width={278} height={278} />
+                                {data.imgIDCard !== "" && <img src={require(`../../img/${data.imgIDCard}`)} alt="" width={278} height={278} />}
                             </div>
                             <div className="bg-white flex justify-center shadow-md p-2 border border-gray-400">
-                                <img src={data.imgIDCard || ""} alt="" width={278} height={278} />
+                                {data.imgCar !== "" && <img src={require(`../../img/${data.imgCar}`)} alt="" width={278} height={278} />}
                             </div>
                         </div>
                     </div>
@@ -105,7 +119,7 @@ function HomePage(props) {
                     <p className="text-xl">Hủy Bỏ</p>
                 </button>
                 <button className="transition duration-500 ease-in-out bg-blue-500 hover:bg-red-700 transform hover:-translate-y-1 hover:scale-110 py-2 px-10 bg-blue-600 text-white rounded">
-                    <p className="text-xl">Lưu</p>
+                    <p className="text-xl" onClick={() => HandleSave(data)}>Lưu</p>
                 </button>
             </div>
         </div>
