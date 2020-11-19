@@ -37,7 +37,8 @@ function HomePage(props) {
             khoa: "",
             nienKhoa: "",
             date: "",
-            thoiGian: ""
+            timeIn: "",
+            timeOut: "",
         }
     );
 

@@ -5,7 +5,7 @@ import './BaixePage.scss';
 function BaixePage(props) {
 
     var [data, setData] = useState([]);
-    
+
     const fetchData = () => {
         new Promise((a, b) => {
             var dbRef = firebase.database().ref().child('baixe');
@@ -16,7 +16,8 @@ function BaixePage(props) {
     const [filter, setFilter] = useState({
         filterID: "",
         filterBSX: "",
-        filterTime: ""
+        filterTimeIn: "",
+        filterTimeOut: ""
     });
 
     useEffect(() => {
@@ -43,12 +44,19 @@ function BaixePage(props) {
                 return item.bsx.indexOf(filter.filterBSX) !== -1;
             })
         }
-        if (filter.filterTime.length > 0) {
+        if (filter.filterTimeIn.length > 0) {
             data = data.filter((item) => {
-                return item.thoiGian.indexOf(filter.filterTime) !== -1;
+                return item.timeIn.indexOf(filter.filterTimeIn) !== -1;
+            })
+        }
+        if (filter.filterTimeOut.length > 0) {
+            data = data.filter((item) => {
+                return item.timeOut.indexOf(filter.filterTimeOut) !== -1;
             })
         }
     }
+
+    console.log(data);
 
     const [showItem, setShowItem] = useState({
         imgIDCard: "",
@@ -58,7 +66,8 @@ function BaixePage(props) {
         date: "",
         nienKhoa: "",
         khoa: "",
-        thoiGian: "",
+        timeIn: "",
+        timeOut: "",
         bsx: ""
     });
 
@@ -72,12 +81,11 @@ function BaixePage(props) {
             date: item.date,
             nienKhoa: item.nienKhoa,
             khoa: item.khoa,
-            thoiGian: item.thoiGian,
+            timeIn: item.timeIn,
+            timeOut: item.timeOut,
             bsx: item.bsx
         });
     }
-
-    console.log(data);
 
     const elmItem = data.map((item, index) => {
         return (
@@ -88,7 +96,8 @@ function BaixePage(props) {
                 <td className="border border-gray-400 pl-4 py-1">{index + 1}</td>
                 <td className="border border-gray-400 pl-6 py-1">{item.mssv}</td>
                 <td className="border border-gray-400 pl-6 py-1">{item.bsx}</td>
-                <td className="border border-gray-400 pl-6 py-1">{item.thoiGian}</td>
+                <td className="border border-gray-400 pl-6 py-1">{item.timeIn}</td>
+                <td className="border border-gray-400 pl-6 py-1">{item.timeOut}</td>
             </tr>
         );
     });
@@ -96,14 +105,15 @@ function BaixePage(props) {
     return (
         <div className="flex justify-center baixe bg-gray-100">
             <div className="container flex items-center">
-                <div className="w-1/2" style={{ "overflowY": "auto", "height": "450px" }}>
+                <div className="w-7/12" style={{ "overflowY": "auto", "height": "450px" }}>
                     <table className="border-separate border-2 border-gray-500">
                         <thead>
                             <tr className="">
                                 <th className="sticky top-0 border border-gray-400 px-2 py-2 text-gray-800 bg-white" style={{ "zIndex": "999" }}>STT</th>
-                                <th className="sticky top-0 border border-gray-400 px-2 py-2 text-gray-800 w-1/3 bg-white">Mã Số Sinh Viên</th>
-                                <th className="sticky top-0 border border-gray-400 px-2 py-2 text-gray-800 w-1/3 bg-white">Biển Số Xe</th>
-                                <th className="sticky top-0 border border-gray-400 px-2 py-2 text-gray-800 w-1/3 bg-white">Thời Gian</th>
+                                <th className="sticky top-0 border border-gray-400 px-2 py-2 text-gray-800 bg-white">Mã Số Sinh Viên</th>
+                                <th className="sticky top-0 border border-gray-400 px-2 py-2 text-gray-800 bg-white">Biển Số Xe</th>
+                                <th className="sticky top-0 border border-gray-400 px-2 py-2 text-gray-800 w-48 bg-white">Time In</th>
+                                <th className="sticky top-0 border border-gray-400 px-2 py-2 text-gray-800 w-48 bg-white">Time Out</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -125,8 +135,15 @@ function BaixePage(props) {
                                 </td>
                                 <td className="border border-gray-400 px-2 py-2">
                                     <input type="text"
-                                        name="filterTime"
-                                        value={filter.filterTime}
+                                        name="filterTimeIn"
+                                        value={filter.filterTimeIn}
+                                        onChange={HandleChangeFilter}
+                                        className="w-full border-2 rounder-md p-1 pl-2" />
+                                </td>
+                                <td className="border border-gray-400 px-2 py-2">
+                                    <input type="text"
+                                        name="filterTimeOut"
+                                        value={filter.filterTimeOut}
                                         onChange={HandleChangeFilter}
                                         className="w-full border-2 rounder-md p-1 pl-2" />
                                 </td>
@@ -135,17 +152,19 @@ function BaixePage(props) {
                         </tbody>
                     </table>
                 </div>
-                <div className="w-1/2 ml-2">
+                <div className="w-5/12 ml-2">
                     <div className="flex h-full border-2 border-gray-400 h-48 px-1 py-4 items-center">
-                        <div className="w-1/2 p-2 ">
-                            <div className="border border-gray-400 h-48 mb-2 pl-2 ml-1 pt-1 shadow-md ">
-                                <img src={showItem.imgIDCard} alt="" className="h-44"/>
-                            </div>
-                            <div className="border border-gray-400 h-48 pl-2 ml-1 pt-1 shadow-md">
-                                <img src={showItem.imgCar} alt=""/>
+                        <div className="w-5/12 p-2 ">
+                            <div>
+                                <div className="border border-gray-400 h-40 mb-2 ml-1 pt-1 shadow-md ">
+                                    <img src={showItem.imgIDCard} alt="" className="h-30" />
+                                </div>
+                                <div className="border border-gray-400 h-40 ml-1 pt-1 shadow-md">
+                                    <img src={showItem.imgCar} alt="" />
+                                </div>
                             </div>
                         </div>
-                        <div className="w-1/2">
+                        <div className="w-7/12">
                             <div className="flex items-center py-3 border border-gray-300 my-1">
                                 <p className="w-5/12 pl-1 text-gray-600">Họ và tên:</p>
                                 <p className="w-7/12 pl-2">{showItem.name}</p>
@@ -168,7 +187,7 @@ function BaixePage(props) {
                             </div>
                             <div className="flex items-center py-3 border border-gray-300 my-1">
                                 <p className="w-5/12 pl-1 text-gray-600">Thời gian gửi xe:</p>
-                                <p className="w-7/12 pl-2">{showItem.thoiGian}</p>
+                                <p className="w-7/12 pl-2">{showItem.timeIn}</p>
                             </div>
                             <div className="flex items-center py-3 border border-gray-300 my-1">
                                 <p className="w-5/12 pl-1 text-gray-600">Biển số xe:</p>

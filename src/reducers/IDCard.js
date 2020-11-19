@@ -17,8 +17,10 @@ const IDCard = createSlice({
             var today = new Date();
             var date = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + " " + today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
             const newData = { ...action.payload, thoiGian: date };
+            var mssv = action.payload.mssv;
+            console.log(mssv);
             console.log(newData);
-            // var dataRef = firebase.database().ref('/baixe').push();
+            var dataRef = firebase.database().ref('/baixe').push();
             // dataRef.set({
             //     ...newData
             // });
