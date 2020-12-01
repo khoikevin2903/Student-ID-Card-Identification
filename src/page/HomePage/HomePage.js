@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import Calendar from '../../components/Calendar';
 import { DAY, MONTH, YEAR } from '../../constants/calendar';
 import * as firebase from 'firebase';
-import { onSaveToCard } from '../../reducers/IDCard';
+import {openShowModal} from './../../reducers/showModal';
 
 const info = JSON.parse(localStorage.getItem('info'));
 
@@ -31,7 +31,7 @@ function HomePage(props) {
         {
             imgIDCard: "",
             imgCar: "",
-            mssv: "000000000",
+            mssv: "",
             bsx: "",
             name: "",
             khoa: "",
@@ -46,8 +46,6 @@ function HomePage(props) {
         fetchInput('input');
     }, []);
 
-    console.log(data);
-
     const HandleChange = (e) => {
         var target = e.target;
         var name = target.name;
@@ -58,8 +56,8 @@ function HomePage(props) {
         })
     }
 
-    const HandleSave = (dataSave) => {
-        dispatch(onSaveToCard(dataSave));
+    const HandleShowModal = () => {
+        dispatch(openShowModal());
     }
 
     return (
@@ -115,12 +113,11 @@ function HomePage(props) {
                     </form>
                 </div>
             </div>
-            <div className="flex justify-center items-center p-3">
-                <button className="mr-6 transition duration-500 ease-in-out bg-blue-500 hover:bg-red-700 transform hover:-translate-y-1 hover:scale-110 py-2 px-6 bg-blue-600 text-white rounded">
-                    <p className="text-xl">Hủy Bỏ</p>
-                </button>
-                <button className="transition duration-500 ease-in-out bg-blue-500 hover:bg-red-700 transform hover:-translate-y-1 hover:scale-110 py-2 px-10 bg-blue-600 text-white rounded">
-                    <p className="text-xl" onClick={() => HandleSave(data)}>Lưu</p>
+            <div className="flex justify-end items-center p-3">
+                <button className="mr-6 transition duration-500 ease-in-out bg-blue-500 hover:bg-red-700 transform hover:-translate-y-1 hover:scale-110 py-2 px-6 bg-blue-600 text-white rounded"
+                    onClick={() => HandleShowModal()}
+                >
+                    <p className="text-xl">Thêm Xe Vào Bãi</p>
                 </button>
             </div>
         </div>

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import * as firebase from 'firebase';
 import './BaixePage.scss';
-
+const info = JSON.parse(localStorage.getItem('info'));
 function BaixePage(props) {
 
-    var [data, setData] = useState([]);
+    var [data, setData] = useState([
+     
+    ]);
 
     const fetchData = () => {
         new Promise((a, b) => {
@@ -56,8 +58,6 @@ function BaixePage(props) {
         }
     }
 
-    console.log(data);
-
     const [showItem, setShowItem] = useState({
         imgIDCard: "",
         imgCar: "",
@@ -72,22 +72,26 @@ function BaixePage(props) {
     });
 
     const HandleGetItem = (item) => {
-        setShowItem({
-            ...showItem,
-            imgIDCard: item.imgIDCard,
-            imgCar: item.imgCar,
-            name: item.name,
-            mssv: item.mssv,
-            date: item.date,
-            nienKhoa: item.nienKhoa,
-            khoa: item.khoa,
-            timeIn: item.timeIn,
-            timeOut: item.timeOut,
-            bsx: item.bsx
-        });
+        info.map(x => {
+            if(x.mssv === item.mssv){
+                setShowItem({
+                    ...showItem,
+                    imgIDCard: item.imgIDCard,
+                    imgCar: item.imgCar,
+                    name: x.name,
+                    mssv: item.mssv,
+                    date: x.date,
+                    nienKhoa: x.nienKhoa,
+                    khoa: x.khoa,
+                    timeIn: item.timeIn,
+                    timeOut: item.timeOut,
+                    bsx: item.bsx
+                });
+            }
+        });  
     }
 
-    const elmItem = data.map((item, index) => {
+    const elmItem = Object.keys(data).map(k => data[k]).reverse().map((item, index) => {
         return (
             <tr className="bg-gray-100 cursor-pointer hover:bg-gray-300"
                 key={index}
@@ -101,6 +105,8 @@ function BaixePage(props) {
             </tr>
         );
     });
+
+    console.log(elmItem)
 
     return (
         <div className="flex justify-center baixe bg-gray-100">
