@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import Calendar from '../../components/Calendar';
 import { DAY, MONTH, YEAR } from '../../constants/calendar';
 import * as firebase from 'firebase';
-import {openShowModal} from './../../reducers/showModal';
+import { openShowModal } from './../../reducers/showModal';
 
 const info = JSON.parse(localStorage.getItem('info'));
 
@@ -62,8 +62,15 @@ function HomePage(props) {
 
     return (
         <div className="bg-gray-200 pb-8 mb-1">
+            <div className="flex justify-end items-center pt-6">
+                <button className="mr-6 transition duration-500 ease-in-out bg-blue-500 hover:bg-red-700 transform hover:-translate-y-1 hover:scale-110 py-2 px-6 bg-blue-600 text-white rounded"
+                    onClick={() => HandleShowModal()}
+                >
+                    <p className="text-xl">Thêm Xe Vào Bãi</p>
+                </button>
+            </div>
             <div className="flex justify-center">
-                <div className="container px-4 pt-10 pb-2 flex justify-center">
+                <div className="container px-4 pt-2 pb-10 flex justify-center">
                     <div>
                         <div className=" p-4">
                             <div className="bg-white flex justify-center shadow-md mb-2 p-2 border border-gray-400">
@@ -112,13 +119,6 @@ function HomePage(props) {
                         </label>
                     </form>
                 </div>
-            </div>
-            <div className="flex justify-end items-center p-3">
-                <button className="mr-6 transition duration-500 ease-in-out bg-blue-500 hover:bg-red-700 transform hover:-translate-y-1 hover:scale-110 py-2 px-6 bg-blue-600 text-white rounded"
-                    onClick={() => HandleShowModal()}
-                >
-                    <p className="text-xl">Thêm Xe Vào Bãi</p>
-                </button>
             </div>
         </div>
     );

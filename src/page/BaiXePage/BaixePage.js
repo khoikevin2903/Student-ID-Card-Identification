@@ -4,9 +4,7 @@ import './BaixePage.scss';
 const info = JSON.parse(localStorage.getItem('info'));
 function BaixePage(props) {
 
-    var [data, setData] = useState([
-     
-    ]);
+    var [data, setData] = useState([]);
 
     const fetchData = () => {
         new Promise((a, b) => {
@@ -73,7 +71,7 @@ function BaixePage(props) {
 
     const HandleGetItem = (item) => {
         info.map(x => {
-            if(x.mssv === item.mssv){
+            if (x.mssv === item.mssv) {
                 setShowItem({
                     ...showItem,
                     imgIDCard: item.imgIDCard,
@@ -88,7 +86,7 @@ function BaixePage(props) {
                     bsx: item.bsx
                 });
             }
-        });  
+        });
     }
 
     const elmItem = Object.keys(data).map(k => data[k]).reverse().map((item, index) => {
@@ -163,10 +161,10 @@ function BaixePage(props) {
                         <div className="w-5/12 p-2 ">
                             <div>
                                 <div className="border border-gray-400 h-40 mb-2 ml-1 pt-1 shadow-md ">
-                                    <img src={showItem.imgIDCard} alt="" className="h-30" />
+                                    {showItem.imgIDCard !== "" && <img src={require(`../../img/${showItem.imgIDCard}`)} alt="" className="h-30" />}
                                 </div>
                                 <div className="border border-gray-400 h-40 ml-1 pt-1 shadow-md">
-                                    <img src={showItem.imgCar} alt="" />
+                                    {showItem.imgIDCard !== "" && <img src={require(`../../img/${showItem.imgCar}`)} alt="" />}
                                 </div>
                             </div>
                         </div>
