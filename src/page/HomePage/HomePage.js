@@ -7,8 +7,11 @@ import * as firebase from 'firebase';
 import { openShowModal } from './../../reducers/showModal';
 
 const info = JSON.parse(localStorage.getItem('info'));
+const newInfo = Object.keys(info).map(k => info[k]).reverse();
 
 function HomePage(props) {
+
+    console.log(newInfo)
 
     const dispatch = useDispatch();
 
@@ -16,7 +19,7 @@ function HomePage(props) {
         var data = {};
         var dbRef = firebase.database().ref().child(endpoint);
         dbRef.on('value', snap => {
-            info.map(x => {
+            newInfo.map(x => {
                 if (x.mssv === snap.val().mssv) {
                     data = snap.val();
                     Object.assign(data, x);

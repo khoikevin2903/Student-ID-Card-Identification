@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import * as firebase from 'firebase';
 import './BaixePage.scss';
 const info = JSON.parse(localStorage.getItem('info'));
+const newInfo = Object.keys(info).map(k => info[k]).reverse();
 function BaixePage(props) {
 
     var [data, setData] = useState([]);
@@ -70,7 +71,7 @@ function BaixePage(props) {
     });
 
     const HandleGetItem = (item) => {
-        info.map(x => {
+        newInfo.map(x => {
             if (x.mssv === item.mssv) {
                 setShowItem({
                     ...showItem,
@@ -103,8 +104,6 @@ function BaixePage(props) {
             </tr>
         );
     });
-
-    console.log(elmItem)
 
     return (
         <div className="flex justify-center baixe bg-gray-100">
