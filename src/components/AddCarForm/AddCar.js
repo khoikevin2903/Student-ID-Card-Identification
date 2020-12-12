@@ -9,12 +9,12 @@ function LoginPage(props) {
         <div className="loginForm bg-gray-200 flex">
             <div className="w-2/5 rigthContent bg-white">
                 <div className="flex justify-center items-center">
-                    <h2 className="text-2xl font-bold">Trường Đại Học Bách Khoa</h2>
+                    <h2 className="text-2xl font-bold" style={{fontStyle: 'oblique'}}>Trường Đại Học Bách Khoa</h2>
                 </div>
                 <div className="flex justify-center items-center">
-                    <h2 className="text-2xl font-bold">Đại Học Đà Nẵng</h2>
+                    <h2 className="text-2xl font-bold" style={{fontStyle: 'oblique'}}>Đại Học Đà Nẵng</h2>
                 </div>
-                <img className="mt-4" src="https://tintuctuyensinh.vn/wp-content/uploads/2020/10/ma-nganh-dai-hoc-bach-khoa-da-nang-1.jpg"></img>
+                <img className="mt-2" src="https://tintuctuyensinh.vn/wp-content/uploads/2020/10/ma-nganh-dai-hoc-bach-khoa-da-nang-1.jpg"></img>
                 <img className="mt-2" src="https://danangz.vn/wp-content/uploads/2016/11/9.jpg"></img>
 
             </div>

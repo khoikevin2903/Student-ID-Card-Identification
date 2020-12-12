@@ -1,6 +1,6 @@
 import React from 'react';
 import './ShowModal.scss';
-import AddCar from '../LoginForm/AddCar';
+import AddCar from '../AddCarForm/AddCar';
 import { useDispatch } from 'react-redux';
 import { closeShowModal } from './../../reducers/showModal';
 

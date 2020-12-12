@@ -67,7 +67,7 @@ function HomePage(props) {
                 <button className="mr-6 transition duration-500 ease-in-out bg-blue-500 hover:bg-red-700 transform hover:-translate-y-1 hover:scale-110 py-2 px-6 bg-blue-600 text-white rounded"
                     onClick={() => HandleShowModal()}
                 >
-                    <p className="text-xl">Thêm Xe Vào Bãi</p>
+                    <p className="text-xl" style={{fontStyle: 'oblique'}}>Nhập Thông Tin Xe</p>
                 </button>
             </div>
             <div className="flex justify-center">
