@@ -36,26 +36,28 @@ function BaixePage(props) {
     }
     if (filter) {
         if (filter.filterID.length > 0) {
-            data = data.filter((item) => {
+            data = Object.keys(data).map(k => data[k]).reverse().filter((item) => {
                 return item.mssv.indexOf(filter.filterID) !== -1;
             })
         }
         if (filter.filterBSX.length > 0) {
-            data = data.filter((item) => {
+            data =Object.keys(data).map(k => data[k]).reverse().filter((item) => {
                 return item.bsx.indexOf(filter.filterBSX) !== -1;
             })
         }
         if (filter.filterTimeIn.length > 0) {
-            data = data.filter((item) => {
+            data = Object.keys(data).map(k => data[k]).reverse().filter((item) => {
                 return item.timeIn.indexOf(filter.filterTimeIn) !== -1;
             })
         }
         if (filter.filterTimeOut.length > 0) {
-            data = data.filter((item) => {
+            data = Object.keys(data).map(k => data[k]).reverse().filter((item) => {
                 return item.timeOut.indexOf(filter.filterTimeOut) !== -1;
             })
         }
     }
+
+    console.log(data);
 
     const [showItem, setShowItem] = useState({
         imgIDCard: "",

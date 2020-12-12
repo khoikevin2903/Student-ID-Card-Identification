@@ -11,8 +11,6 @@ const newInfo = Object.keys(info).map(k => info[k]).reverse();
 
 function HomePage(props) {
 
-    console.log(newInfo)
-
     const dispatch = useDispatch();
 
     const fetchInput = (endpoint) => new Promise((a, b) => {
