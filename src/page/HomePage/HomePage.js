@@ -7,38 +7,22 @@ import * as firebase from 'firebase';
 import { openShowModal } from './../../reducers/showModal';
 
 const info = JSON.parse(localStorage.getItem('info'));
-//const newInfo = Object.keys(info).map(k => info[k]).reverse();
 
 function HomePage(props) {
-
-    const [newInfo, setNewInfo] = useState([{
-            mssv: "102180253",
-            name:"Trần Anh Khôi",
-            nienKhoa:"2018",
-            date: "04/01/2000",
-            khoa:"Công nghệ thông tin"
-    }]);
-
-    useEffect(() => {
-        if(info){
-            let convertInfo = Object.keys(info).map(k => info[k]).reverse();
-            setNewInfo(convertInfo);
-        }
-    }, [info])
-
+   
     const dispatch = useDispatch();
 
     const fetchInput = (endpoint) => new Promise((a, b) => {
-        var data = {};
+        var dataTmp = {};
         var dbRef = firebase.database().ref().child(endpoint);
         dbRef.on('value', snap => {
-            newInfo.map(x => {
+            info.map(x => {
                 if (x.mssv === snap.val().mssv) {
-                    data = snap.val();
-                    Object.assign(data, x);
+                    dataTmp = snap.val();
+                    Object.assign(dataTmp, x);
                 }
             });
-            setData(data);
+        setData(dataTmp);
 
         });
     })

@@ -2,23 +2,8 @@ import React, { useEffect, useState } from 'react';
 import * as firebase from 'firebase';
 import './BaixePage.scss';
 const info = JSON.parse(localStorage.getItem('info'));
-// const newInfo = Object.keys(info).map(k => info[k]).reverse();
+
 function BaixePage(props) {
-
-    const [newInfo, setNewInfo] = useState([{
-        mssv: "102180253",
-        name:"Trần Anh Khôi",
-        nienKhoa:"2018",
-        date: "04/01/2000",
-        khoa:"Công nghệ thông tin"
-    }]);
-
-    useEffect(() => {
-    if(info){
-        let convertInfo = Object.keys(info).map(k => info[k]).reverse();
-        setNewInfo(convertInfo);
-    }
-    }, [info])
 
     var [data, setData] = useState([]);
 
@@ -88,7 +73,7 @@ function BaixePage(props) {
     });
 
     const HandleGetItem = (item) => {
-        newInfo.map(x => {
+        info.map(x => {
             if (x.mssv === item.mssv) {
                 setShowItem({
                     ...showItem,
